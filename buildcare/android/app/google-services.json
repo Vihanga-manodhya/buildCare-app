@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "139607690703",
+    "project_id": "buildingapp-e32fb",
+    "storage_bucket": "buildingapp-e32fb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139607690703:android:4f91d7bcd2660dc1fd96ba",
+        "android_client_info": {
+          "package_name": "com.example.buildassist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPv-cBpZclXNTZkgOIzXf7SNTnfl3h7mA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139607690703:android:dd2a0e9f1c003883fd96ba",
+        "android_client_info": {
+          "package_name": "com.example.buildcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPv-cBpZclXNTZkgOIzXf7SNTnfl3h7mA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
