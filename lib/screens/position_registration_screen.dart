@@ -1,3 +1,5 @@
+// The path has been corrected based on your project name "buildcare"
+import 'package:buildcare/TO/signup.dart'; 
 import 'package:flutter/material.dart';
 
 class PositionRegistrationScreen extends StatefulWidget {
@@ -50,9 +52,20 @@ class _PositionRegistrationScreenState
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
+                        // First, update the state to show selection
                         setState(() {
                           _selectedPosition = position;
                         });
+
+                        // ** NEW: Check if the button is "TO" and navigate **
+                        if (position == 'TO') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignUpScreen()),
+                          );
+                        }
+                        // You could add 'else if' blocks for other positions later
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isSelected
@@ -90,8 +103,15 @@ class _PositionRegistrationScreenState
                 child: ElevatedButton(
                   onPressed: _selectedPosition != null
                       ? () {
-                          // Handle registration completion
+                          // This button can also have navigation logic based on _selectedPosition
                           print('Selected position: $_selectedPosition');
+                          if (_selectedPosition == 'TO') {
+                             Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignUpScreen()),
+                            );
+                          }
                         }
                       : null, // Button is disabled if no position is selected
                   style: ElevatedButton.styleFrom(
