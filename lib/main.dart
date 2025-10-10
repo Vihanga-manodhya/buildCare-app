@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// 1. IMPORT YOUR NEW SCREEN
+import 'screens/position_registration_screen.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -53,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 40),
-              
+
               // NIC Input
               const Text(
                 'Enter Your NIC',
@@ -79,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              
+
               // Password Input
               const Text(
                 'Enter Your Password',
@@ -117,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 32),
-              
+
               // Login Button
               SizedBox(
                 width: double.infinity,
@@ -144,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              
+
               // Sign up link
               Center(
                 child: GestureDetector(
@@ -154,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: RichText(
                     text: const TextSpan(
-                      text: "Don't have account ? ",
+                      text: "Don't have an account? ",
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: 14,
@@ -183,23 +185,20 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login() {
     final nic = _nicController.text;
     final password = _passwordController.text;
-    
+
     // Add your login logic here
     print('NIC: $nic');
     print('Password: $password');
-    
+
     // You can add authentication logic, API calls, etc.
   }
 
   void _navigateToSignUp() {
-    // Add navigation to sign up screen
-    print('Navigate to sign up screen');
-    
-    // Example navigation:
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => SignUpScreen()),
-    // );
+    // 2. UPDATE THE NAVIGATION METHOD
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PositionRegistrationScreen()),
+    );
   }
 
   @override
