@@ -1,6 +1,11 @@
-// The path has been corrected based on your project name "buildcare"
-import 'package:buildcare/TO/signup.dart'; 
 import 'package:flutter/material.dart';
+
+// Import each signup screen with a unique prefix to avoid class name conflicts
+import 'package:buildcare/Principal/signup.dart' as principal_signup;
+import 'package:buildcare/TO/signup.dart' as to_signup;
+import 'package:buildcare/DistrictEng/signup.dart' as district_eng_signup;
+import 'package:buildcare/ProvincialEng/signup.dart' as provincial_eng_signup;
+import 'package:buildcare/ChiefEng/signup.dart' as chief_eng_signup;
 
 class PositionRegistrationScreen extends StatefulWidget {
   const PositionRegistrationScreen({super.key});
@@ -13,11 +18,13 @@ class PositionRegistrationScreen extends StatefulWidget {
 class _PositionRegistrationScreenState
     extends State<PositionRegistrationScreen> {
   String? _selectedPosition;
+  // Updated list to include all roles from your file structure
   final List<String> _positions = [
     'Principal',
     'TO',
     'District Engineer',
     'Provincial Engineer',
+    'Chief Engineer', // Added this to match your folders
   ];
 
   @override
@@ -30,7 +37,6 @@ class _PositionRegistrationScreenState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Title
               const Text(
                 'Select Your position to Registration',
                 textAlign: TextAlign.center,
@@ -40,9 +46,7 @@ class _PositionRegistrationScreenState
                   color: Colors.black87,
                 ),
               ),
-
               const Spacer(),
-
               // Position selection buttons
               ..._positions.map((position) {
                 final isSelected = _selectedPosition == position;
@@ -52,20 +56,9 @@ class _PositionRegistrationScreenState
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        // First, update the state to show selection
                         setState(() {
                           _selectedPosition = position;
                         });
-
-                        // ** NEW: Check if the button is "TO" and navigate **
-                        if (position == 'TO') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignUpScreen()),
-                          );
-                        }
-                        // You could add 'else if' blocks for other positions later
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isSelected
@@ -94,26 +87,17 @@ class _PositionRegistrationScreenState
                   ),
                 );
               }).toList(),
-
               const Spacer(),
-
               // Get Started button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _selectedPosition != null
                       ? () {
-                          // This button can also have navigation logic based on _selectedPosition
-                          print('Selected position: $_selectedPosition');
-                          if (_selectedPosition == 'TO') {
-                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen()),
-                            );
-                          }
+                          // Use a switch statement to navigate to the correct screen
+                          navigateToSelectedScreen(_selectedPosition!);
                         }
-                      : null, // Button is disabled if no position is selected
+                      : null, // Button disabled if no position is selected
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF38B6FF),
                     foregroundColor: Colors.white,
@@ -133,6 +117,37 @@ class _PositionRegistrationScreenState
           ),
         ),
       ),
+    );
+  }
+
+  // Helper function to handle navigation
+  void navigateToSelectedScreen(String position) {
+    Widget? screen;
+    switch (position) {
+      case 'Principal':
+        screen = const principal_signup.SignUpScreen();
+        break;
+      case 'TO':
+        screen = const to_signup.SignUpScreen();
+        break;
+      case 'District Engineer':
+        screen = const district_eng_signup.SignUpScreen();
+        break;
+      case 'Provincial Engineer':
+        screen = const provincial_eng_signup.SignUpScreen();
+        break;
+      case 'Chief Engineer':
+        screen = const chief_eng_signup.SignUpScreen();
+        break;
+      default:
+        // Optional: handle case where position is unknown
+        print('Error: Unknown position selected');
+        return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => screen!),
     );
   }
 }
