@@ -43,17 +43,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(height: 16),
 
                     // --- Name Field ---
-                    _buildLabel('Technical Officer Name'),
+                    _buildLabel('District Name'),
                     _buildTextField(
-                        hint: 'Enter Your Name',
-                        icon: Icons.person_outline),
+                      hint: 'Enter Your Name',
+                      icon: Icons.person_outline,
+                    ),
                     const SizedBox(height: 16),
 
                     // --- NIC Field ---
                     _buildLabel('NIC Number'),
                     _buildTextField(
-                        hint: 'Enter Your NIC',
-                        icon: Icons.credit_card_outlined),
+                      hint: 'Enter Your NIC',
+                      icon: Icons.credit_card_outlined,
+                    ),
                     const SizedBox(height: 16),
 
                     // --- Office Dropdown ---
@@ -64,22 +66,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     // --- Email Field ---
                     _buildLabel('Email'),
                     _buildTextField(
-                        hint: 'Enter Your Email Adress',
-                        icon: Icons.email_outlined),
+                      hint: 'Enter Your Email Adress',
+                      icon: Icons.email_outlined,
+                    ),
                     const SizedBox(height: 16),
 
                     // --- Office Phone Field ---
                     _buildLabel('Office Phone Number'),
                     _buildTextField(
-                        hint: 'Enter Your Office Phone Number',
-                        icon: Icons.phone_in_talk_outlined),
+                      hint: 'Enter Your Office Phone Number',
+                      icon: Icons.phone_in_talk_outlined,
+                    ),
                     const SizedBox(height: 16),
 
                     // --- Mobile Number Field ---
                     _buildLabel('Mobile Number'),
                     _buildTextField(
-                        hint: 'Enter Your Mobile Number',
-                        icon: Icons.phone_android_outlined),
+                      hint: 'Enter Your Mobile Number',
+                      icon: Icons.phone_android_outlined,
+                    ),
                     const SizedBox(height: 16),
 
                     // --- Security Question Fields ---
@@ -97,7 +102,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hint: 'Enter Your Password',
                       isPasswordVisible: _isPasswordVisible,
                       onToggleVisibility: () {
-                        setState(() => _isPasswordVisible = !_isPasswordVisible);
+                        setState(
+                          () => _isPasswordVisible = !_isPasswordVisible,
+                        );
                       },
                     ),
                     const SizedBox(height: 16),
@@ -108,7 +115,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hint: 'Re-Enter Your Password',
                       isPasswordVisible: _isConfirmPasswordVisible,
                       onToggleVisibility: () {
-                        setState(() => _isConfirmPasswordVisible = !_isConfirmPasswordVisible);
+                        setState(
+                          () => _isConfirmPasswordVisible =
+                              !_isConfirmPasswordVisible,
+                        );
                       },
                     ),
                     const SizedBox(height: 30),
@@ -191,7 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           borderSide: BorderSide.none,
         ),
       ),
-       validator: (value) {
+      validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Password cannot be empty';
         }
@@ -202,7 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
     );
   }
-  
+
   // Helper widget for User Type dropdown
   Widget _buildUserTypeDropdown() {
     return DropdownButtonFormField<String>(
@@ -213,17 +223,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _selectedUserType = newValue;
         });
       },
-      items: <String>['Principal', 'Technical Officer', 'District Eng.', 'Chief Eng.']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+      items:
+          <String>[
+            'Principal',
+            'Technical Officer',
+            'District Eng.',
+            'Chief Eng.',
+          ].map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(value: value, child: Text(value));
+          }).toList(),
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: Colors.grey.shade300),
@@ -237,7 +252,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           borderSide: const BorderSide(color: Colors.blue, width: 2),
         ),
       ),
-       validator: (value) => value == null ? 'Please select a user type' : null,
+      validator: (value) => value == null ? 'Please select a user type' : null,
     );
   }
 
@@ -253,20 +268,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
       items: <String>['Galle', 'Matara', 'Hambantota']
           .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+            return DropdownMenuItem<String>(value: value, child: Text(value));
+          })
+          .toList(),
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
-         enabledBorder: OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
@@ -275,7 +291,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           borderSide: const BorderSide(color: Colors.blue, width: 2),
         ),
       ),
-       validator: (value) => value == null ? 'Please select an office' : null,
+      validator: (value) => value == null ? 'Please select an office' : null,
     );
   }
 
@@ -303,9 +319,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             // If the form is valid, display a snackbar.
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Processing Data')),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('Processing Data')));
           }
         },
         style: ElevatedButton.styleFrom(
