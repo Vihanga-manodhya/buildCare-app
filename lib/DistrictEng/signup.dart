@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// Assuming your DashboardScreen is in a separate file named dashboard_screen.dart
+import 'dashboard_screen.dart'; // <--- ADDED IMPORT
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,6 +18,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // Form key for validation
   final _formKey = GlobalKey<FormState>();
+
+  // Controllers for text fields to retrieve values (optional, but good practice)
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nicController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _officePhoneController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
+  final TextEditingController _petNameController = TextEditingController();
+  final TextEditingController _nicknameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  
+  // Dispose controllers to free up memory
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _nicController.dispose();
+    _emailController.dispose();
+    _officePhoneController.dispose();
+    _mobileController.dispose();
+    _petNameController.dispose();
+    _nicknameController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     _buildTextField(
                       hint: 'Enter Your Name',
                       icon: Icons.person_outline,
+                      controller: _nameController, // Added controller
                     ),
                     const SizedBox(height: 16),
 
@@ -55,6 +85,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     _buildTextField(
                       hint: 'Enter Your NIC',
                       icon: Icons.credit_card_outlined,
+                      controller: _nicController, // Added controller
+                      keyboardType: TextInputType.text, // Assuming text/mixed input for NIC
                     ),
                     const SizedBox(height: 16),
 
@@ -68,6 +100,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     _buildTextField(
                       hint: 'Enter Your Email Adress',
                       icon: Icons.email_outlined,
+                      controller: _emailController, // Added controller
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Email cannot be empty';
+                        }
+                        // Simple email regex for basic validation
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                          return 'Enter a valid email address';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 16),
 
@@ -76,6 +120,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     _buildTextField(
                       hint: 'Enter Your Office Phone Number',
                       icon: Icons.phone_in_talk_outlined,
+                      controller: _officePhoneController, // Added controller
+                      keyboardType: TextInputType.phone,
                     ),
                     const SizedBox(height: 16),
 
@@ -84,16 +130,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     _buildTextField(
                       hint: 'Enter Your Mobile Number',
                       icon: Icons.phone_android_outlined,
+                      controller: _mobileController, // Added controller
+                      keyboardType: TextInputType.phone,
                     ),
                     const SizedBox(height: 16),
 
                     // --- Security Question Fields ---
                     _buildLabel('First Pet Name'),
-                    _buildTextField(hint: 'Enter Your First Pet Name'),
+                    _buildTextField(
+                      hint: 'Enter Your First Pet Name',
+                      controller: _petNameController, // Added controller
+                    ),
                     const SizedBox(height: 16),
 
                     _buildLabel('Childhood nickname'),
-                    _buildTextField(hint: 'Enter Your Childhood nickname'),
+                    _buildTextField(
+                      hint: 'Enter Your Childhood nickname',
+                      controller: _nicknameController, // Added controller
+                    ),
                     const SizedBox(height: 16),
 
                     // --- Password Field ---
@@ -101,6 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     _buildPasswordField(
                       hint: 'Enter Your Password',
                       isPasswordVisible: _isPasswordVisible,
+                      controller: _passwordController, // Added controller
                       onToggleVisibility: () {
                         setState(
                           () => _isPasswordVisible = !_isPasswordVisible,
@@ -114,6 +169,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     _buildPasswordField(
                       hint: 'Re-Enter Your Password',
                       isPasswordVisible: _isConfirmPasswordVisible,
+                      controller: _confirmPasswordController, // Added controller
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please confirm your password';
+                        }
+                        if (value != _passwordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
                       onToggleVisibility: () {
                         setState(
                           () => _isConfirmPasswordVisible =
@@ -153,9 +218,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  // Helper widget for standard text fields
-  Widget _buildTextField({required String hint, IconData? icon}) {
+  // Helper widget for standard text fields (Updated to accept controller and keyboardType)
+  Widget _buildTextField({
+    required String hint,
+    IconData? icon,
+    TextEditingController? controller,
+    TextInputType keyboardType = TextInputType.text,
+    String? Function(String?)? validator,
+  }) {
     return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: TextStyle(color: Colors.grey.shade400),
@@ -166,23 +239,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
         ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.grey.shade300, width: 0.5),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.blue, width: 2),
+        ),
       ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'This field cannot be empty';
-        }
-        return null;
-      },
+      validator: validator ??
+          (value) {
+            if (value == null || value.isEmpty) {
+              return 'This field cannot be empty';
+            }
+            return null;
+          },
     );
   }
 
-  // Helper widget for password fields
+  // Helper widget for password fields (Updated to accept controller)
   Widget _buildPasswordField({
     required String hint,
     required bool isPasswordVisible,
     required VoidCallback onToggleVisibility,
+    TextEditingController? controller,
+    String? Function(String?)? validator, // Added optional validator
   }) {
     return TextFormField(
+      controller: controller,
       obscureText: !isPasswordVisible,
       decoration: InputDecoration(
         hintText: hint,
@@ -200,16 +285,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
         ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.grey.shade300, width: 0.5),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.blue, width: 2),
+        ),
       ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Password cannot be empty';
-        }
-        if (value.length < 6) {
-          return 'Password must be at least 6 characters';
-        }
-        return null;
-      },
+      validator: validator ??
+          (value) {
+            if (value == null || value.isEmpty) {
+              return 'Password cannot be empty';
+            }
+            if (value.length < 6) {
+              return 'Password must be at least 6 characters';
+            }
+            return null;
+          },
     );
   }
 
@@ -223,29 +317,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _selectedUserType = newValue;
         });
       },
-      items:
-          <String>[
-            'Principal',
-            'Technical Officer',
-            'District Eng.',
-            'Chief Eng.',
-          ].map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(value: value, child: Text(value));
-          }).toList(),
+      items: <String>[
+        'Principal',
+        'Technical Officer',
+        'District Eng.',
+        'Chief Eng.',
+      ].map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(value: value, child: Text(value));
+      }).toList(),
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Colors.grey.shade100,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 12,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide.none, // Changed to match text field style
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide(color: Colors.grey.shade300, width: 0.5),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -268,23 +361,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
       items: <String>['Galle', 'Matara', 'Hambantota']
           .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(value: value, child: Text(value));
-          })
-          .toList(),
+        return DropdownMenuItem<String>(value: value, child: Text(value));
+      }).toList(),
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Colors.grey.shade100, // Changed to match text field style
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 12,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide.none, // Changed to match text field style
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide(color: Colors.grey.shade300, width: 0.5),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -295,7 +387,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  // Helper widget for the Sign Up button
+  // Helper widget for the Sign Up button (UPDATED LOGIC)
   Widget _buildSignUpButton() {
     return Container(
       width: double.infinity,
@@ -317,11 +409,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       child: ElevatedButton(
         onPressed: () {
+          // Validate returns true if the form is valid, or false otherwise.
           if (_formKey.currentState!.validate()) {
-            // If the form is valid, display a snackbar.
-            ScaffoldMessenger.of(
+            // If the form is valid, navigate to the Dashboard Screen
+            // Using pushReplacement removes the SignUpScreen from the stack, 
+            // so the user cannot go back to it with the back button.
+            Navigator.pushReplacement(
               context,
-            ).showSnackBar(const SnackBar(content: Text('Processing Data')));
+              MaterialPageRoute(
+                builder: (context) => const DashboardScreen(),
+              ),
+            );
+          } else {
+            // Optional: Show a generic error if validation fails
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Please correct the errors in the form.'),
+                backgroundColor: Colors.red,
+              ),
+            );
           }
         },
         style: ElevatedButton.styleFrom(
@@ -358,9 +464,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 color: Colors.blue.shade700,
                 fontWeight: FontWeight.bold,
               ),
-              // Add recognizer for tap events
+              // You can uncomment this section when you have a Sign In screen
               // recognizer: TapGestureRecognizer()..onTap = () {
-              //   print('Navigate to Sign In screen');
+              //    print('Navigate to Sign In screen');
               // },
             ),
           ],
@@ -369,3 +475,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
+// If you are putting both classes in one file, include the DashboardScreen here:
+/*
+class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('BuildCare Dashboard'),
+        backgroundColor: const Color(0xFF2C3E50),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text(
+          'Welcome to the Dashboard!',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+*/
