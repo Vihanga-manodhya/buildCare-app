@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// Import the new dashboard file
+// Assuming the DashboardScreen is in 'dashboard_screen.dart'
 import 'dashboard_screen.dart'; 
 
 class SignUpScreen extends StatefulWidget {
@@ -10,16 +10,15 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // --- State variables for dropdowns and password visibility ---
+  // --- State variables ---
   String? _selectedUserType;
-  String? _selectedSchoolType; // New state variable
+  String? _selectedSchoolType;
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
-  // Form key for validation
   final _formKey = GlobalKey<FormState>();
 
-  // --- Controllers for all text fields (UPDATED) ---
+  // --- Controllers for all text fields ---
   final TextEditingController _nicController = TextEditingController();
   final TextEditingController _schoolNameController = TextEditingController();
   final TextEditingController _schoolEmailController = TextEditingController();
@@ -34,7 +33,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    // Dispose controllers to free up memory
     _nicController.dispose();
     _schoolNameController.dispose();
     _schoolEmailController.dispose();
@@ -47,6 +45,80 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _confirmPasswordController.dispose();
     super.dispose();
   }
+  
+  // --- Custom Color and Style Configuration ---
+  final Color _focusColor = const Color(0xFF53BDFF);
+  final double _borderRadius = 8.0;
+
+  // --- Helper function for custom Input Decoration ---
+  InputDecoration _getInputDecoration({required String hint, IconData? icon}) {
+    
+    // 1. Define the normal/default border (No border line, just rounded corners)
+    final inputBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(_borderRadius),
+      borderSide: BorderSide.none,
+    );
+
+    // 2. Define the FOCUSED border (Full color line on click/tap) - THIS IS THE KEY CHANGE
+    final focusedBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(_borderRadius),
+      borderSide: BorderSide(
+        color: _focusColor, // The requested color 53BDFF
+        width: 2.0,         // A visible line width
+      ),
+    );
+    
+
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: TextStyle(color: Colors.grey.shade400),
+      suffixIcon: icon != null ? Icon(icon, color: Colors.grey) : null,
+      filled: true,
+      fillColor: Colors.grey.shade100, // Light gray fill color
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      
+      // Apply the borders
+      // Default state: Looks like the very first code (no visible border)
+      border: inputBorder,
+      enabledBorder: inputBorder,
+      
+      // Focused state: Shows the blue border
+      focusedBorder: focusedBorder, 
+    );
+  }
+  
+  // --- Helper function for Dropdown Decoration (Similar to Text Fields) ---
+  InputDecoration _getDropdownDecoration({required String hint}) {
+    // 1. Define the normal/default border (No border line, just rounded corners)
+    final inputBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(_borderRadius),
+      borderSide: BorderSide.none,
+    );
+
+    // 2. Define the FOCUSED border (Full color line on click/tap)
+    final focusedBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(_borderRadius),
+      borderSide: BorderSide(
+        color: _focusColor, 
+        width: 2.0,         
+      ),
+    );
+
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: TextStyle(color: Colors.grey.shade400),
+      suffixIcon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+      filled: true,
+      fillColor: Colors.grey.shade100,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+
+      border: inputBorder,
+      enabledBorder: inputBorder,
+      focusedBorder: focusedBorder,
+    );
+  }
+  // ---------------------------------------------
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +163,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     // --- School Type Dropdown ---
                     _buildLabel('School Type'),
-                    _buildSchoolTypeDropdown(), // New dropdown
+                    _buildSchoolTypeDropdown(), 
                     const SizedBox(height: 16),
 
                     // --- School Email Field ---
@@ -160,7 +232,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onToggleVisibility: () {
                         setState(() => _isConfirmPasswordVisible = !_isConfirmPasswordVisible);
                       },
-                      isConfirm: true, // Flag for password matching
+                      isConfirm: true, 
                     ),
                     const SizedBox(height: 30),
 
@@ -202,25 +274,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     required TextEditingController controller
   }) {
     return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: TextStyle(color: Colors.grey.shade400),
-        suffixIcon: icon != null ? Icon(icon, color: Colors.grey) : null,
-        filled: true,
-        fillColor: Colors.grey.shade100,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
-        ),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'This field cannot be empty';
-        }
-        return null;
-      },
+        controller: controller,
+        decoration: _getInputDecoration(hint: hint, icon: icon),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'This field cannot be empty';
+          }
+          return null;
+        },
     );
   }
 
@@ -235,22 +296,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return TextFormField(
       controller: controller,
       obscureText: !isPasswordVisible,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: TextStyle(color: Colors.grey.shade400),
+      decoration: _getInputDecoration(hint: hint).copyWith(
         suffixIcon: IconButton(
           icon: Icon(
             isPasswordVisible ? Icons.visibility_off : Icons.visibility,
             color: Colors.grey,
           ),
           onPressed: onToggleVisibility,
-        ),
-        filled: true,
-        fillColor: Colors.grey.shade100,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
         ),
       ),
       validator: (value) {
@@ -268,7 +320,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  // Helper widget for User Type dropdown (Simplified based on image: now only 'Principal' is relevant)
+  // Helper widget for User Type dropdown 
   Widget _buildUserTypeDropdown() {
     return DropdownButtonFormField<String>(
       value: _selectedUserType,
@@ -278,19 +330,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _selectedUserType = newValue;
         });
       },
-      items: <String>['Principal'] // Filtered list to match Principal signup context
+      items: <String>['Principal']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
         );
       }).toList(),
-      decoration: _getDropdownDecoration(),
+      decoration: _getDropdownDecoration(hint: 'Select Your Roll'),
       validator: (value) => value == null ? 'Please select a user type' : null,
     );
   }
   
-  // NEW Helper widget for School Type dropdown
+  // Helper widget for School Type dropdown 
   Widget _buildSchoolTypeDropdown() {
     return DropdownButtonFormField<String>(
       value: _selectedSchoolType,
@@ -307,29 +359,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Text(value),
         );
       }).toList(),
-      decoration: _getDropdownDecoration(),
+      decoration: _getDropdownDecoration(hint: 'Select a school type'),
       validator: (value) => value == null ? 'Please select a school type' : null,
-    );
-  }
-  
-  // Unified style for all dropdowns
-  InputDecoration _getDropdownDecoration() {
-    return InputDecoration(
-      filled: true,
-      fillColor: Colors.grey.shade100, // Use a lighter background to match the text fields
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: Colors.blue, width: 2),
-      ),
     );
   }
 
@@ -355,13 +386,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       child: ElevatedButton(
         onPressed: () {
-          // Validate the form before navigating
           if (_formKey.currentState!.validate()) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Registration successful! Navigating to Dashboard...')),
             );
-
-            // Navigate to DashboardScreen using pushReplacement
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -404,7 +432,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 color: Colors.blue.shade700,
                 fontWeight: FontWeight.bold,
               ),
-              // Add navigation logic to your Sign In screen here
             ),
           ],
         ),
