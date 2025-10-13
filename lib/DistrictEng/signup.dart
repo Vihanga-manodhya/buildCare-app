@@ -43,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(height: 16),
 
                     // --- Name Field ---
-                    _buildLabel('District Name'),
+                    _buildLabel('District Engineer Name'),
                     _buildTextField(
                       hint: 'Enter Your Name',
                       icon: Icons.person_outline,
