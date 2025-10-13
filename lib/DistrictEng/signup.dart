@@ -318,10 +318,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         });
       },
       items: <String>[
-        'Principal',
-        'Technical Officer',
+        //'Principal',
+        //'Technical Officer',
         'District Eng.',
-        'Chief Eng.',
+       //
+       // 'Chief Eng.',
       ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(value: value, child: Text(value));
       }).toList(),
