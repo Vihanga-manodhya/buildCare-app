@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Import each signup screen with a unique prefix to avoid class name conflicts
-import 'package:buildcare/Principal/signup.dart' as principal_signup;
+import 'package:buildcare/Principal/signup_screen.dart' as principal_signup;
 import 'package:buildcare/TO/signup.dart' as to_signup;
 import 'package:buildcare/DistrictEng/signup.dart' as district_eng_signup;
 import 'package:buildcare/ProvincialEng/signup.dart' as provincial_eng_signup;
