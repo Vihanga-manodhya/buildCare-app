@@ -46,7 +46,7 @@ class DashboardScreen extends StatelessWidget {
 
   // A common background color for the dark cards
   final Color _cardColor = Colors.white;
-  final Color _backgroundColor = const Color(0xFF2C3E50);
+  final Color _backgroundColor = const Color.fromARGB(255, 118, 154, 184);
 
   // Function to handle navigation to a new screen
   void _navigateTo(BuildContext context, Widget screen) {
