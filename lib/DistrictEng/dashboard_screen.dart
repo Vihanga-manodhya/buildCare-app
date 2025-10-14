@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Import the Manage TOs Screen
-import 'manage_to_screen.dart'; 
+import 'manage_to_screen.dart';
 
 // --- 1. PLACEHOLDER SCREENS (Navigation Targets) ---
 
@@ -19,7 +19,10 @@ class PlaceholderScreen extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       body: Center(
-        child: Text('This is the $title Screen.', style: const TextStyle(fontSize: 20)),
+        child: Text(
+          'This is the $title Screen.',
+          style: const TextStyle(fontSize: 20),
+        ),
       ),
     );
   }
@@ -29,17 +32,19 @@ class PlaceholderScreen extends StatelessWidget {
 class ManageSchoolsScreen extends PlaceholderScreen {
   const ManageSchoolsScreen({super.key}) : super(title: 'Manage Schools');
 }
+
 // Note: ManageTosScreen is now imported from 'manage_to_screen.dart'
 class ManagePrincipalsScreen extends PlaceholderScreen {
   const ManagePrincipalsScreen({super.key}) : super(title: 'Manage Principals');
 }
+
 class ViewDetailsScreen extends PlaceholderScreen {
   const ViewDetailsScreen({super.key}) : super(title: 'Activity Details');
 }
+
 class ReviewRequestScreen extends PlaceholderScreen {
   const ReviewRequestScreen({super.key}) : super(title: 'Review Request');
 }
-
 
 // --- 2. MAIN DASHBOARD SCREEN ---
 
@@ -52,10 +57,7 @@ class DashboardScreen extends StatelessWidget {
 
   // Function to handle navigation to a new screen
   void _navigateTo(BuildContext context, Widget screen) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => screen),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
   }
 
   @override
@@ -67,7 +69,7 @@ class DashboardScreen extends StatelessWidget {
           children: [
             // Header Section
             _buildHeader(context),
-            
+
             // Scrollable Content
             Expanded(
               child: SingleChildScrollView(
@@ -88,24 +90,29 @@ class DashboardScreen extends StatelessWidget {
                       context,
                       title: 'Thurstan Collage - Damaged Roof',
                       subtitle: 'Colombo - Status: Pending Review',
-                      onTap: () => _navigateTo(context, const ViewDetailsScreen()),
+                      onTap: () =>
+                          _navigateTo(context, const ViewDetailsScreen()),
                     ),
                     _buildActivityTile(
                       context,
                       title: 'Thurstan Collage - Damaged Roof',
                       subtitle: 'Colombo - Status: Pending Review',
-                      onTap: () => _navigateTo(context, const ViewDetailsScreen()),
+                      onTap: () =>
+                          _navigateTo(context, const ViewDetailsScreen()),
                     ),
                     const SizedBox(height: 20),
-                    
+
                     // Approval Request
                     _buildSectionTitle('Approval Request'),
                     _buildApprovalRequest(
                       context,
                       requestText: 'Manel Withana request to register as a TO.',
-                      onReview: () => _navigateTo(context, const ReviewRequestScreen()),
+                      onReview: () =>
+                          _navigateTo(context, const ReviewRequestScreen()),
                     ),
-                    const SizedBox(height: 80), // Extra space for bottom navigation overlap
+                    const SizedBox(
+                      height: 80,
+                    ), // Extra space for bottom navigation overlap
                   ],
                 ),
               ),
@@ -150,11 +157,7 @@ class DashboardScreen extends StatelessWidget {
               color: Colors.blue.shade100,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.person,
-              size: 50,
-              color: Color(0xFF5271FF),
-            ),
+            child: const Icon(Icons.person, size: 50, color: Color(0xFF5271FF)),
           ),
           const SizedBox(width: 16),
           // Welcome Text
@@ -171,10 +174,7 @@ class DashboardScreen extends StatelessWidget {
               ),
               Text(
                 'District Engineer',
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                ),
+                style: TextStyle(color: Colors.white70, fontSize: 16),
               ),
             ],
           ),
@@ -199,26 +199,27 @@ class DashboardScreen extends StatelessWidget {
             children: [
               // Schools
               _buildMetricItem(
-                context, 
-                'Total Schools', 
-                '150', 
-                'Manage Schools', 
+                context,
+                'Total Schools',
+                '150',
+                'Manage Schools',
                 () => _navigateTo(context, const ManageSchoolsScreen()),
               ),
               // TOs (NAVIGATES TO NEW SCREEN)
               _buildMetricItem(
-                context, 
-                'Active TOs', 
-                '25', 
-                'Manage TOs', 
-                () => _navigateTo(context, const ManageTechnicalOfficersScreen()), 
+                context,
+                'Active TOs',
+                '25',
+                'Manage TOs',
+                () =>
+                    _navigateTo(context, const ManageTechnicalOfficersScreen()),
               ),
               // Principals
               _buildMetricItem(
-                context, 
-                'Pending', 
-                '5', 
-                'Manage Principals', 
+                context,
+                'Pending',
+                '5',
+                'Manage Principals',
                 () => _navigateTo(context, const ManagePrincipalsScreen()),
               ),
             ],
@@ -230,11 +231,11 @@ class DashboardScreen extends StatelessWidget {
 
   // Single Metric Item with its associated button (FIXED LOGIC)
   Widget _buildMetricItem(
-    BuildContext context, 
-    String title, 
-    String count, 
+    BuildContext context,
+    String title,
+    String count,
     String buttonText, // Explicit button text to avoid RangeError
-    VoidCallback onPressed
+    VoidCallback onPressed,
   ) {
     return Expanded(
       child: Padding(
@@ -246,7 +247,7 @@ class DashboardScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.blue.shade50,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.blue.shade100)
+                border: Border.all(color: Colors.blue.shade100),
               ),
               child: Column(
                 children: [
@@ -264,7 +265,7 @@ class DashboardScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 11,
                       color: Colors.grey.shade600,
-                      fontWeight: FontWeight.w500
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
@@ -300,7 +301,6 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-
   // Recent Activity Tile
   Widget _buildActivityTile(
     BuildContext context, {
@@ -325,7 +325,11 @@ class DashboardScreen extends StatelessWidget {
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Icon(Icons.house_outlined, color: Color(0xFF2C3E50), size: 30),
+              child: const Icon(
+                Icons.house_outlined,
+                color: Color.fromARGB(255, 255, 255, 255),
+                size: 30,
+              ),
             ),
             const SizedBox(width: 12),
             // Text
@@ -342,10 +346,7 @@ class DashboardScreen extends StatelessWidget {
                   ),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                   ),
                 ],
               ),
@@ -354,7 +355,10 @@ class DashboardScreen extends StatelessWidget {
             TextButton(
               onPressed: onTap,
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 minimumSize: Size.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
@@ -407,7 +411,10 @@ class DashboardScreen extends StatelessWidget {
                 onPressed: onReview,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF5271FF),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
