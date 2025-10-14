@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-// 1. Import the new screen file
+// 1. Import the two new screen files
 import 'add_building_issues_screen.dart'; 
+import 'add_school_details_screen.dart'; 
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -56,7 +57,7 @@ class DashboardScreen extends StatelessWidget {
                     date: '2025-09-09',
                     location: 'Colombo',
                   ),
-                  const SizedBox(height: 12.0), 
+                  SizedBox(height: 12.0), 
                   ReportedIssueCard(
                     schoolName: 'Thurstan Collage',
                     issue: 'Damaged Roof',
@@ -150,22 +151,29 @@ class DashboardScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         children: [
-          // Card 1: Add Your School Details (No navigation provided for this)
-          const CardTile(
+          // Card 1: Add Your School Details (Navigation added here)
+          CardTile(
             icon: Icons.add_circle_outline, 
             title: 'Add Your School Details',
             iconSize: defaultCategoryIconSize,
+            onTap: () {
+              // --- NAVIGATION CODE for Add School Details ---
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AddSchoolDetailsScreen()), 
+              );
+            },
           ),
           
           const SizedBox(height: 12.0), 
           
-          // Card 2: Add Building Issues (Navigation added here)
+          // Card 2: Add Building Issues (Existing Navigation)
           CardTile(
             icon: Icons.construction, 
             title: 'Add Building Issues',
             iconSize: defaultCategoryIconSize,
             onTap: () {
-              // --- NAVIGATION CODE ---
+              // --- NAVIGATION CODE for Add Building Issues ---
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const AddBuildingIssuesScreen()), 
