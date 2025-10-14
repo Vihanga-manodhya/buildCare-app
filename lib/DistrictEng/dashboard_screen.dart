@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+// Import the Manage TOs Screen
+import 'manage_to_screen.dart'; 
+
 // --- 1. PLACEHOLDER SCREENS (Navigation Targets) ---
 
-// Placeholder for screens linked from the Overview section
+// Placeholder for generic screens (used for Schools, Principals, Activity Details, Review)
 class PlaceholderScreen extends StatelessWidget {
   final String title;
   const PlaceholderScreen({super.key, required this.title});
@@ -22,13 +25,11 @@ class PlaceholderScreen extends StatelessWidget {
   }
 }
 
-// Specific placeholders for clarity
+// Specific placeholders
 class ManageSchoolsScreen extends PlaceholderScreen {
   const ManageSchoolsScreen({super.key}) : super(title: 'Manage Schools');
 }
-class ManageTosScreen extends PlaceholderScreen {
-  const ManageTosScreen({super.key}) : super(title: 'Manage TOs');
-}
+// Note: ManageTosScreen is now imported from 'manage_to_screen.dart'
 class ManagePrincipalsScreen extends PlaceholderScreen {
   const ManagePrincipalsScreen({super.key}) : super(title: 'Manage Principals');
 }
@@ -39,6 +40,7 @@ class ReviewRequestScreen extends PlaceholderScreen {
   const ReviewRequestScreen({super.key}) : super(title: 'Review Request');
 }
 
+
 // --- 2. MAIN DASHBOARD SCREEN ---
 
 class DashboardScreen extends StatelessWidget {
@@ -46,7 +48,7 @@ class DashboardScreen extends StatelessWidget {
 
   // A common background color for the dark cards
   final Color _cardColor = Colors.white;
-  final Color _backgroundColor = const Color.fromARGB(255, 118, 154, 184);
+  final Color _backgroundColor = const Color(0xFF2C3E50);
 
   // Function to handle navigation to a new screen
   void _navigateTo(BuildContext context, Widget screen) {
@@ -77,7 +79,7 @@ class DashboardScreen extends StatelessWidget {
 
                     // Overview Card
                     _buildSectionTitle('Overview'),
-                    _buildOverviewCard(context), // <--- Calling updated method
+                    _buildOverviewCard(context),
                     const SizedBox(height: 20),
 
                     // Recent Activity
@@ -200,23 +202,23 @@ class DashboardScreen extends StatelessWidget {
                 context, 
                 'Total Schools', 
                 '150', 
-                'Manage Schools', // Explicit button text
+                'Manage Schools', 
                 () => _navigateTo(context, const ManageSchoolsScreen()),
               ),
-              // TOs
+              // TOs (NAVIGATES TO NEW SCREEN)
               _buildMetricItem(
                 context, 
                 'Active TOs', 
                 '25', 
-                'Manage TOs', // Explicit button text
-                () => _navigateTo(context, const ManageTosScreen()),
+                'Manage TOs', 
+                () => _navigateTo(context, const ManageTechnicalOfficersScreen()), 
               ),
               // Principals
               _buildMetricItem(
                 context, 
                 'Pending', 
                 '5', 
-                'Manage Principals', // Explicit button text
+                'Manage Principals', 
                 () => _navigateTo(context, const ManagePrincipalsScreen()),
               ),
             ],
@@ -226,12 +228,12 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  // Single Metric Item with its associated button (UPDATED SIGNATURE AND USAGE)
+  // Single Metric Item with its associated button (FIXED LOGIC)
   Widget _buildMetricItem(
     BuildContext context, 
     String title, 
     String count, 
-    String buttonText, // Now accepting explicit button text
+    String buttonText, // Explicit button text to avoid RangeError
     VoidCallback onPressed
   ) {
     return Expanded(
