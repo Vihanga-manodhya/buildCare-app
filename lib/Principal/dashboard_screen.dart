@@ -1,46 +1,38 @@
 import 'package:flutter/material.dart';
+// 1. Import the new screen file
+import 'add_building_issues_screen.dart'; 
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   // --- Color Palette based on User Request ---
-  static const Color darkBackgroundColor = Color(0xFFEDEDED); // Main screen background (EDEDED)
+  static const Color darkBackgroundColor = Color(0xFFEDEDED); // Main screen background 
   static const Color cardBackgroundColor = Color(0xFFFFFFFF); // FFFFFF for all cards/fields
-  static const Color primaryBlue = Color(0xFF53BDFF); // 53BDFF for blue accents (icons, primary border)
-  static const Color viewDetailsBlue = Color(0xFF009DFF); // 009DFF (Retained for View Details button border)
-  static const Color darkTextColor = Color(0xFF2C3E50); // Dark text color (for contrast)
+  static const Color primaryBlue = Color(0xFF53BDFF); // 53BDFF for blue accents 
+  static const Color viewDetailsBlue = Color(0xFF009DFF); // 009DFF 
+  static const Color darkTextColor = Color(0xFF2C3E50); // Dark text color 
   static const Color greyTextColor = Colors.grey; 
   static const Color lightGreyFill = Color(0xFFF5F5F5); // Used for icon/input backgrounds
 
   // --- Icon Size Constants ---
-  static const double defaultCategoryIconSize = 30.0; // Size for Category 1 & 2
-  static const double largeCategory3IconSize = 35.0; // Increased size for Category 3 (Manage Master Plans)
-
-  // NOTE: _buildBoundaryBlurLine widget has been REMOVED as requested.
+  static const double defaultCategoryIconSize = 30.0; 
+  static const double largeCategory3IconSize = 35.0; 
 
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Scaffold(
-      // --- 1. Main Background Color (EDEDED) ---
       backgroundColor: darkBackgroundColor, 
 
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- 2. User Info Card (Stretches to Top) ---
             _buildUserInfoSection(statusBarHeight), 
-            
-            // *** 1. TOP SPACE: After User Info Card (White -> Grey Boundary) ***
-            // The 16.0 gap remains, but without the blur shadow.
             const SizedBox(height: 16.0), 
-
-            // --- 3. Action Tiles (Category Fields) ---
-            _buildActionTiles(),
+            _buildActionTiles(context), // Pass context for navigation
             
-            // --- 4. My Reported Issues Header ---
             const Padding(
               padding: EdgeInsets.only(top: 24.0, left: 24.0, right: 24.0, bottom: 16.0),
               child: Text(
@@ -53,7 +45,6 @@ class DashboardScreen extends StatelessWidget {
               ),
             ),
 
-            // --- 5. Reported Issues List ---
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0), 
               child: Column(
@@ -65,7 +56,7 @@ class DashboardScreen extends StatelessWidget {
                     date: '2025-09-09',
                     location: 'Colombo',
                   ),
-                  const SizedBox(height: 12.0), // EDEDED gap
+                  const SizedBox(height: 12.0), 
                   ReportedIssueCard(
                     schoolName: 'Thurstan Collage',
                     issue: 'Damaged Roof',
@@ -77,20 +68,11 @@ class DashboardScreen extends StatelessWidget {
               ),
             ),
             
-            // --- Final spacing before bottom boundary ---
-            const SizedBox(height: 16), 
-
-            // *** 2. BOTTOM SPACE: Before Bottom Navigation Bar (Grey -> White Boundary) ***
-            // The 16.0 gap remains, but without the blur shadow.
-            const SizedBox(height: 16.0), 
-
-            // Extra space to push content above the fixed footer
             const SizedBox(height: 65), 
           ],
         ),
       ),
 
-      // --- Bottom Navigation Bar (FFFFFFF with 53BDFF icons) ---
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
@@ -102,10 +84,8 @@ class DashboardScreen extends StatelessWidget {
   Widget _buildUserInfoSection(double statusBarHeight) {
     return Container(
       width: double.infinity,
-      // White Card Background FFFFFF
       decoration: BoxDecoration(
         color: cardBackgroundColor,
-        // Standard shadow for depth
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -124,14 +104,12 @@ class DashboardScreen extends StatelessWidget {
       
       child: Row(
         children: [
-          // Profile Picture Icon
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: primaryBlue.withOpacity(0.2), 
               border: Border.all(color: primaryBlue, width: 3), 
-              // No shadow/blur
             ),
             child: const Icon(
               Icons.person,
@@ -140,7 +118,6 @@ class DashboardScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          // Welcome Text
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
@@ -167,33 +144,42 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  // Build the Action Tiles area
-  Widget _buildActionTiles() {
+  // Build the Action Tiles area with navigation
+  Widget _buildActionTiles(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
-        children: const [
-          // Card 1
-          CardTile(
+        children: [
+          // Card 1: Add Your School Details (No navigation provided for this)
+          const CardTile(
             icon: Icons.add_circle_outline, 
             title: 'Add Your School Details',
-            iconSize: defaultCategoryIconSize, 
+            iconSize: defaultCategoryIconSize,
           ),
-          // EDEDED gap remains
-          SizedBox(height: 12.0), 
-          // Card 2
+          
+          const SizedBox(height: 12.0), 
+          
+          // Card 2: Add Building Issues (Navigation added here)
           CardTile(
             icon: Icons.construction, 
             title: 'Add Building Issues',
-            iconSize: defaultCategoryIconSize, 
+            iconSize: defaultCategoryIconSize,
+            onTap: () {
+              // --- NAVIGATION CODE ---
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AddBuildingIssuesScreen()), 
+              );
+            },
           ),
-          // EDEDED gap remains
-          SizedBox(height: 12.0),
-          // Card 3
-          CardTile(
+          
+          const SizedBox(height: 12.0),
+          
+          // Card 3: Manage Master Plans
+          const CardTile(
             icon: Icons.map_outlined, 
             title: 'Manage Master Plans',
-            iconSize: largeCategory3IconSize, // Increased size
+            iconSize: largeCategory3IconSize, 
           ),
         ],
       ),
@@ -204,8 +190,7 @@ class DashboardScreen extends StatelessWidget {
     return Container(
       height: 65,
       decoration: const BoxDecoration(
-        color: cardBackgroundColor, // FFFFFF
-        // Standard shadow for depth
+        color: cardBackgroundColor, 
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
@@ -231,7 +216,6 @@ class DashboardScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // No shadow/blur on icons
         Icon(icon, color: color, size: 28),
       ],
     );
@@ -239,79 +223,77 @@ class DashboardScreen extends StatelessWidget {
 }
 
 // -----------------------------------------------------------------------------
-// --- Custom Reusable Widgets ---
+// --- Custom Reusable Widgets (CardTile & ReportedIssueCard) ---
 // -----------------------------------------------------------------------------
 
-// CardTile for Dashboard Actions (These are the FFFFFF fields)
 class CardTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final double iconSize;
+  final VoidCallback? onTap; 
 
   const CardTile({
     required this.icon,
     required this.title,
     required this.iconSize,
+    this.onTap, 
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-      decoration: BoxDecoration(
-        color: DashboardScreen.cardBackgroundColor, // FFFFFF
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          // Standard shadow for depth (No Blue Blur Shadow here)
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 5,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // Icon with background circle
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: DashboardScreen.primaryBlue.withOpacity(0.2), 
-              // No shadow/blur
+    return GestureDetector( 
+      onTap: onTap, 
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+        decoration: BoxDecoration(
+          color: DashboardScreen.cardBackgroundColor, 
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 5,
+              offset: Offset(0, 3),
             ),
-            child: Icon(
-              icon,
-              color: DashboardScreen.primaryBlue, // 53BDFF icon color
-              size: iconSize, 
-            ),
-          ),
-          const SizedBox(width: 16),
-          // Title
-          Expanded( 
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: DashboardScreen.darkTextColor,
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: DashboardScreen.primaryBlue.withOpacity(0.2), 
+              ),
+              child: Icon(
+                icon,
+                color: DashboardScreen.primaryBlue, 
+                size: iconSize, 
               ),
             ),
-          ),
-          // Arrow icon
-          const Icon(
-            Icons.arrow_forward_ios,
-            color: Colors.grey,
-            size: 16,
-          ),
-        ],
+            const SizedBox(width: 16),
+            Expanded( 
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: DashboardScreen.darkTextColor,
+                ),
+              ),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.grey,
+              size: 16,
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-// ReportedIssueCard 
 class ReportedIssueCard extends StatelessWidget {
   final String schoolName;
   final String issue;
@@ -334,10 +316,9 @@ class ReportedIssueCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(bottom: 0.0), 
       decoration: BoxDecoration(
-        color: DashboardScreen.cardBackgroundColor, // FFFFFF
+        color: DashboardScreen.cardBackgroundColor, 
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
-          // Standard shadow for depth (No Blue Blur Shadow here)
           BoxShadow(
             color: Colors.black12,
             blurRadius: 5,
@@ -348,7 +329,6 @@ class ReportedIssueCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Building Icon
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -362,7 +342,6 @@ class ReportedIssueCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          // Issue Details
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -393,7 +372,6 @@ class ReportedIssueCard extends StatelessWidget {
               ],
             ),
           ),
-          // View Details Button
           TextButton(
             onPressed: () {
               // Action for View Details
@@ -402,7 +380,7 @@ class ReportedIssueCard extends StatelessWidget {
               backgroundColor: DashboardScreen.cardBackgroundColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8), 
-                side: const BorderSide(color: DashboardScreen.viewDetailsBlue, width: 1), // Border uses the View Details blue
+                side: const BorderSide(color: DashboardScreen.viewDetailsBlue, width: 1), 
               ),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               minimumSize: Size.zero,
@@ -411,7 +389,7 @@ class ReportedIssueCard extends StatelessWidget {
             child: const Text(
               'View Details',
               style: TextStyle(
-                color: DashboardScreen.viewDetailsBlue, // 009DFF text color
+                color: DashboardScreen.viewDetailsBlue, 
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
