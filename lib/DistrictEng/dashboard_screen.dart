@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 // Import the Manage TOs Screen
 import 'manage_to_screen.dart';
+import 'manage_principals_screen.dart'; // <--- The actual screen is imported here
 
 // --- 1. PLACEHOLDER SCREENS (Navigation Targets) ---
 
-// Placeholder for generic screens (used for Schools, Principals, Activity Details, Review)
+// Placeholder for generic screens (used for Schools, Activity Details, Review)
 class PlaceholderScreen extends StatelessWidget {
   final String title;
   const PlaceholderScreen({super.key, required this.title});
@@ -34,9 +35,6 @@ class ManageSchoolsScreen extends PlaceholderScreen {
 }
 
 // Note: ManageTosScreen is now imported from 'manage_to_screen.dart'
-class ManagePrincipalsScreen extends PlaceholderScreen {
-  const ManagePrincipalsScreen({super.key}) : super(title: 'Manage Principals');
-}
 
 class ViewDetailsScreen extends PlaceholderScreen {
   const ViewDetailsScreen({super.key}) : super(title: 'Activity Details');
@@ -220,7 +218,9 @@ class DashboardScreen extends StatelessWidget {
                 'Pending',
                 '5',
                 'Manage Principals',
-                () => _navigateTo(context, const ManagePrincipalsScreen()),
+                // *** FIX: Use the imported ManagePrincipalsScreen widget ***
+                () => _navigateTo(context, const ManagePrincipalsScreen()), 
+                // *** END FIX ***
               ),
             ],
           ),
