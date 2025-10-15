@@ -1,3 +1,7 @@
+import 'package:buildcare/ChiefEng/pages/chief_home_page.dart';
+import 'package:buildcare/ChiefEng/pages/sign_up_page.dart';
+import 'package:buildcare/ChiefEng/pages/view/destice_engineer_ditsild.dart';
+import 'package:buildcare/To/signup.dart';
 import 'package:flutter/material.dart';
 // 1. IMPORT YOUR NEW SCREEN
 import 'screens/position_registration_screen.dart'; 
@@ -12,12 +16,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      
       title: 'Login App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+     
+    home:SignUpPagesfhg(),
+  // home: LoginScreen(),
+  // home: DistricEngineerDetails(),
+   
+     
+
+
     );
   }
 }
