@@ -327,7 +327,7 @@ class DashboardScreen extends StatelessWidget {
               ),
               child: const Icon(
                 Icons.house_outlined,
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Color.fromARGB(255, 28, 27, 27),
                 size: 30,
               ),
             ),
