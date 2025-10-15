@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:buildcare/Principal/signup.dart' as principal_signup;
 import 'package:buildcare/TO/signup.dart' as to_signup;
 import 'package:buildcare/DistrictEng/signup.dart' as district_eng_signup;
-import 'package:buildcare/ProvincialEng/signup.dart' as provincial_eng_signup;
+import 'package:buildcare/ProvincialEng/signup_screen.dart' as provincial_eng_signup;
 import 'package:buildcare/ChiefEng/signup.dart' as chief_eng_signup;
 
 class PositionRegistrationScreen extends StatefulWidget {
