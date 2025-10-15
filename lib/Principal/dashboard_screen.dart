@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-// 1. Import the two new screen files
+// 1. Import the original screen files
 import 'add_building_issues_screen.dart'; 
 import 'add_school_details_screen.dart'; 
+// 2. Import the new Master Plan screen
+import 'add_master_plan_screen.dart'; 
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -151,7 +153,7 @@ class DashboardScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         children: [
-          // Card 1: Add Your School Details (Navigation added here)
+          // Card 1: Add Your School Details 
           CardTile(
             icon: Icons.add_circle_outline, 
             title: 'Add Your School Details',
@@ -167,7 +169,7 @@ class DashboardScreen extends StatelessWidget {
           
           const SizedBox(height: 12.0), 
           
-          // Card 2: Add Building Issues (Existing Navigation)
+          // Card 2: Add Building Issues 
           CardTile(
             icon: Icons.construction, 
             title: 'Add Building Issues',
@@ -183,11 +185,18 @@ class DashboardScreen extends StatelessWidget {
           
           const SizedBox(height: 12.0),
           
-          // Card 3: Manage Master Plans
-          const CardTile(
+          // Card 3: Manage Master Plans (NAVIGATION ADDED HERE)
+          CardTile(
             icon: Icons.map_outlined, 
             title: 'Manage Master Plans',
             iconSize: largeCategory3IconSize, 
+            onTap: () {
+              // --- NAVIGATION CODE for Add Master Plan Screen ---
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AddMasterPlanScreen()),
+              );
+            },
           ),
         ],
       ),
@@ -240,13 +249,14 @@ class CardTile extends StatelessWidget {
   final double iconSize;
   final VoidCallback? onTap; 
 
+  // FIX: Constructor updated for compatibility (fixing line 197 issue)
   const CardTile({
     required this.icon,
     required this.title,
     required this.iconSize,
     this.onTap, 
-    super.key,
-  });
+    Key? key, // Explicit Key parameter
+  }) : super(key: key); // Explicit super call
 
   @override
   Widget build(BuildContext context) {
@@ -309,14 +319,15 @@ class ReportedIssueCard extends StatelessWidget {
   final String date;
   final String location;
 
+  // FIX: Constructor updated for compatibility
   const ReportedIssueCard({
     required this.schoolName,
     required this.issue,
     required this.status,
     required this.date,
     required this.location,
-    super.key,
-  });
+    Key? key, // Explicit Key parameter
+  }) : super(key: key); // Explicit super call
 
   @override
   Widget build(BuildContext context) {

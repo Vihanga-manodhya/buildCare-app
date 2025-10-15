@@ -311,7 +311,7 @@ class _AddBuildingIssuesScreenState extends State<AddBuildingIssuesScreen> {
               onChanged: (newValue) { setState(() { selectedDamageType = newValue; }); },
             ),
 
-            _buildInputField(label: 'Description of Issue', hintText: 'Describe your SCHOOL building Issue', maxLines: 5, controller: _descriptionController),
+            _buildInputField(label: 'Description of Issue', hintText: 'Describe your School building Issue', maxLines: 5, controller: _descriptionController),
 
             _buildUploadButton(), 
 
