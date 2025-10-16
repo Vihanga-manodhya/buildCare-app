@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "336082967535",
+    "project_id": "buildcareapp",
+    "storage_bucket": "buildcareapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336082967535:android:7e9eb499a3886d199c341a",
+        "android_client_info": {
+          "package_name": "com.example.buildin_school_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2NbDF0jUOd7WOHl4nyVvDafIxBLIRZeU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
